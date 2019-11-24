@@ -1,0 +1,46 @@
+
+<!-- {{ec2DataVar | json}} --> 
+<!-- {{ec2DataVar[0].ec2DataId}} -->
+<div *ngIf="ec2DataVar">
+    <!-- <p>ec2data-list works!</p> -->
+    <div *ngFor="let ec2DataVarItem of ec2DataVar"> 
+        EC2Data_Id: {{ec2DataVarItem.ec2DataId}}
+    
+        <div *ngFor="let metadataItem of ec2DataVarItem.ec2Details.metadata">
+            <h3>Metadata of Instance {{metadataItem.instanceId}}</h3>
+            <h5>Public Hostname: {{metadataItem.publicHostname}}</h5>
+            <h5>Public IPv4: {{metadataItem.publicIPv4}}</h5>
+            <h5>Local Hostname: {{metadataItem.localHostname}}</h5>
+            <h5>{{metadataItem.localIPv4}}</h5>        
+        </div>
+        <div *ngFor="let tag of ec2DataVarItem.ec2Details.tags">
+                <h3>Tag</h3>
+                <h5>Resource Type: {{tag.resourceType}}</h5>
+                <h5>Resource Id: {{tag.resourceId}}</h5>
+                <h5>Value: {{tag.value}}</h5>
+                <h5>Key: {{tag.key}}</h5>        
+        </div>
+        <div *ngFor="let volume of ec2DataVarItem.ec2Details.volumes">
+                <h3>Volumes</h3>
+                <h5>availabilityZone: {{volume.availabilityZone}}</h5>
+                <div *ngFor="let attachment of volume.attachments">
+                    <h3>Attachment Details:</h3>
+                    <h5>attachTime: {{attachment.attachTime}}</h5>
+                    <h5>instanceId: {{attachment.instanceId}}</h5>
+                    <h5>volumeId: {{attachment.volumeId}}</h5>
+                    <h5>state: {{attachment.state}}</h5>
+                    <h5>deleteOnTermination: {{attachment.deleteOnTermination}}</h5>
+                    <h5>device: {{attachment.device}}</h5>
+                </div>
+                <h5>encrypted: {{volume.encrypted}}</h5>
+                <h5>volumeType: {{volume.volumeType}}</h5>
+                <h5>volumeId: {{volume.volumeId}}</h5>
+                <h5>state: {{volume.state}}</h5>
+                <h5>iops: {{volume.iops}}</h5>
+                <h5>snapshotId: {{volume.snapshotId}}</h5>
+                <h5>createTime: {{volume.createTime}}</h5>
+                <h5>size: {{volume.size}}</h5>        
+        </div>
+    </div>
+</div>
+<button routerLink="/load-ec2data">Load EC2 Data</button>

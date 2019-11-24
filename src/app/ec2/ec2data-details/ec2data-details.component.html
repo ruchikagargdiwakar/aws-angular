@@ -1,0 +1,102 @@
+<button (click)="navigateBack()">Navigate Back</button>
+
+<div *ngIf="ec2DataVar">
+    <!-- <p>ec2data-list works!</p> -->  
+    <h4>Metadata of Instance {{ec2DataVar.ec2DataId}}</h4>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Public Hostname</th>
+            <th>Public IPv4</th>
+            <th>Local Hostname</th>
+            <th>Local IPv4</th>
+        </tr>
+        <tr *ngFor="let metadataItem of ec2DataVar.ec2Details.metadata; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{metadataItem.publicHostname}}</td>
+            <td>{{metadataItem.publicIPv4}}</td>
+            <td>{{metadataItem.localHostname}}</td>
+            <td>{{metadataItem.localIPv4}}</td>
+        </tr>
+    </table>
+    <h4>Tags of Instance {{ec2DataVar.ec2DataId}}</h4>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Resource Type</th>
+            <th>Resource Id</th>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        <tr *ngFor="let tagItem of ec2DataVar.ec2Details.tags; let id = index">
+            <!-- <td>{{i + 1}}</td>
+            <td>{{tagItem.resourceType}}</td>
+            <td>{{tagItem.resourceId}}</td>
+            <td>{{tagItem.key}}</td>
+            <td>{{tagItem.value}}</td> -->
+            <!-- <td><a [routerLink]="['/ec2data-update']" [queryParams]="{tagItem: tagItem.resourceId,ec2InstanceId: ec2DataVar.ec2DataId}">Edit</a></td> -->
+            <td>{{id + 1}}</td>
+            <td>
+                <span>{{tagItem.resourceType}}</span>
+            </td>
+            <td>
+                <span>{{tagItem.resourceId}}</span>
+            </td>
+            <td>
+                <span (keyup)="changeValue(ec2DataVar.ec2DataId,tagItem.resourceId, tagItem.key, 'key', $event)" (blur)="updateList(ec2DataVar.ec2DataId,tagItem.resourceId,tagItem.key, 'key', $event)" contenteditable="true">{{tagItem.key}}</span>
+            </td>
+            <td>
+                <span (keyup)="changeValue(ec2DataVar.ec2DataId,tagItem.resourceId, tagItem.key, 'value', $event)" (blur)="updateList(ec2DataVar.ec2DataId,tagItem.resourceId,tagItem.key, 'value', $event)" contenteditable="true">{{tagItem.value}}</span>
+            </td>
+        </tr>
+    </table>
+    <h4>Volumes of Instance {{ec2DataVar.ec2DataId}}</h4>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>AvailabilityZone</th>
+            <th>Attachment Details</th>
+            <th>Encrypted</th>
+            <th>Volume Type</th>
+            <th>Volume Id</th>
+            <th>State</th>
+            <th>Iops</th>
+            <th>Snapshot Id</th>
+            <th>Create Time</th>
+            <th>Size</th>
+        </tr>
+        <tr *ngFor="let volume of ec2DataVar.ec2Details.volumes; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{volume.availabilityZone}}</td>
+            <!-- <td><div *ngFor="let attachment of volume.attachments;let j = index">
+                <h4>Attachment {{j+1}} Details:</h4>
+                <h5>attachTime: {{attachment.attachTime}}</h5>
+                <h5>instanceId: {{attachment.instanceId}}</h5>
+                <h5>volumeId: {{attachment.volumeId}}</h5>
+                <h5>state: {{attachment.state}}</h5>
+                <h5>deleteOnTermination: {{attachment.deleteOnTermination}}</h5>
+                <h5>device: {{attachment.device}}</h5>
+            </div></td> -->
+            <td>
+                <table class="table" *ngFor="let attachment of volume.attachments;let j = index">
+                    <tr >{{j + 1}}. Attach Time: {{attachment.attachTime}}</tr>
+                    <tr >{{j + 2}}. Instance Id: {{attachment.instanceId}}</tr>
+                    <tr >{{j + 3}}. Volume Id: {{attachment.volumeId}}</tr>
+                    <tr >{{j + 4}}. State: {{attachment.state}}</tr>
+                    <tr >{{j + 5}}. Delete On Termination: {{attachment.deleteOnTermination}}</tr>
+                    <tr >{{j + 6}}. Device: {{attachment.device}}</tr>
+                </table>
+            </td>
+            <td>{{volume.encrypted}}</td>
+            <td>{{volume.volumeType}}</td>
+            <td>{{volume.volumeId}}</td>
+            <td>{{volume.state}}</td>
+            <td>{{volume.iops}}</td>
+            <td>{{volume.snapshotId}}</td>
+            <td>{{volume.createTime}}</td>
+            <td>{{volume.size}}</td>
+        </tr>
+    </table>
+</div>
+<!-- <button routerLink="/ec2data-listing">Listing Page</button> -->
+
